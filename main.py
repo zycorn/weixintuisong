@@ -113,6 +113,12 @@ def get_ciba():
     note_en = r.json()["content"]
     note_ch = r.json()["note"]
     return note_ch, note_en
+
+def get_words():
+  words = requests.get("https://api.shadiao.pro/chp")
+  if words.status_code != 200:
+    return get_words()
+  return words.json()['data']['text']
  
  
 def send_message(to_user, access_token, region_name, weather, temp, wind_dir, note_ch, note_en):
@@ -226,7 +232,7 @@ if __name__ == "__main__":
     note_en = config["note_en"]
     if note_ch == "" and note_en == "":
         # 获取词霸每日金句
-        note_ch, note_en = get_ciba()
+        note_ch = get_words()
     # 公众号推送消息
     for user in users:
         send_message(user, accessToken, region, weather, temp, wind_dir, note_ch, note_en)
