@@ -115,11 +115,12 @@ def get_ciba():
     return note_ch, note_en
 
 def get_words():
-  words = requests.get("https://api.shadiao.pro/chp")
-  if words.status_code != 200:
-    return get_words()
-  return words.json()['data']['text']
- 
+    words = requests.get("https://api.shadiao.pro/chp")
+    if words.status_code != 200:
+        return get_words()
+    return words.json()['data']['text']
+
+
  
 def send_message(to_user, access_token, region_name, weather, temp, wind_dir, note_ch):
     url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={}".format(access_token)
@@ -169,6 +170,10 @@ def send_message(to_user, access_token, region_name, weather, temp, wind_dir, no
             },
             "love_day": {
                 "value": love_days,
+                "color": get_color()
+            },
+            "note_ch": {
+                "value": note_ch,
                 "color": get_color()
             }
         }
